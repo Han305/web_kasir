@@ -14,39 +14,52 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="d-flex justify-content-end">
-                    <a href="" class="btn btn-primary mb-3">Tambah Produk</a>
+                    <a href="{{ route('admin.produk.add') }}" class="btn btn-primary mb-3">Tambah Produk</a>
                 </div>
                 <table class="table">
                     <thead class="table-dark">
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Gambar</th>
-                        <th scope="col">Nama</th>
-                        <th scope="col">Kategori</th>
-                        <th scope="col">Harga</th>
-                    </tr>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Gambar</th>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Kategori</th>
+                            <th scope="col">Stok</th>
+                            <th scope="col">Harga</th>
+                            <th scope="col">Aksi</th>
+                        </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                      </tr>
+                        @foreach ($posts as $item)
+                            <tr>
+                                <th scope="row">{{ $loop->iteration }}</th>
+                                <td><img src="{{ asset('img/' . $item->image) }}" alt="" style="width: 100px;"></td>
+                                <td>{{ $item->nama_produk }}</td>
+                                <td>{{ $item->categories_id }}</td>
+                                <td>{{ $item->stok }}</td>
+                                <td>{{ $item->harga }}</td>
+                                <td>
+                                    <a href="{{ route('admin.produk.edit', $item->id) }}" class="btn btn-primary btn-sm">
+                                        Edit
+                                    </a>
+                                    <a href="{{ route('admin.produk.destroy', $item->id) }}" class="btn btn-danger btn-sm"
+                                        onclick="return deleteConfirm()">
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
-                  </table>
+                </table>
             </div>
         </section>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        function deleteConfirm() {
+            let approve = confirm('Apakah anda yakin ingin menghapus data?');
+            return approve;
+        }
+    </script>
 @endsection

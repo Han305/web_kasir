@@ -71,6 +71,7 @@
     <script src="{{ asset('lte/dist/js/adminlte.js') }}"></script>    
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('lte/dist/js/pages/dashboard.js') }}"></script>
+    @yield('script')
 </body>
 
 </html>

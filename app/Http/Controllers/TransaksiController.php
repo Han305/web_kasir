@@ -10,7 +10,8 @@ use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $posts = Product::all();
         $pesanan = Transaksi::all();
         $totalHarga = $pesanan->sum('harga');
@@ -18,8 +19,9 @@ class TransaksiController extends Controller
         $diskon = ($pesanan->sum('qty') > 8) ? 0.05 * $totalHarga : 0;
         return view('menu', compact('posts', 'pesanan', 'totalHarga', 'diskon'));
     }
-    
-    public function store(Request $request) {
+
+    public function store(Request $request)
+    {
         $validate = $request->validate([
             'qty' => 'min:1|required',
             'harga' => 'required',
@@ -36,28 +38,43 @@ class TransaksiController extends Controller
         $post->harga = $sumHarga;
         $post->save();
 
+        $product = Product::where('nama_produk', $validate['nama_produk'])->first();
+        if ($product) {
+            $product->stok -= $qty;
+            $product->save();
+        }
+
         return redirect(route('index'));
     }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $pesanan = Transaksi::find($id);
+        $product = Product::where('nama_produk', $pesanan->nama_produk)->first();
+        if ($product) {
+            $product->stok += $pesanan->qty;
+            $product->save();
+        }
+
         $pesanan->delete();
+
         return redirect(route('index'));
     }
 
-    public function addPesanan() {
+    public function addPesanan()
+    {
         $post = Transaksi::all();
         $nama_produk = $post->pluck('nama_produk')->toArray();
         $jumlah_total = $post->sum('qty');
-        $total_harga = $post->sum('harga');        
+        $total_harga = $post->sum('harga');
 
         $diskon = ($post->sum('qty') > 8) ? 0.05 * $total_harga : 0;
-        $no_invoice = 'NV' . Carbon::now()->format('Ymd');
+        $no_invoice = 'NV' . mt_rand(100000, 999999);
 
-        if ($no_invoice && $nama_produk && $jumlah_total >= 0 && $total_harga >= 0) {            
+        if ($no_invoice && $nama_produk && $jumlah_total >= 0 && $total_harga >= 0) {
             $invoice = new Invoice();
             $invoice->no_invoice = $no_invoice;
-            $invoice->nama = implode(', ' , $nama_produk);
+            $invoice->nama = implode(', ', $nama_produk);
             $invoice->qty = $jumlah_total;
             $invoice->harga = ($diskon > 0) ? $total_harga - $diskon : $total_harga;
             $invoice->save();

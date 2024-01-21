@@ -13,6 +13,15 @@
 
 <body>
     <div class="mx-3 my-3">
+        <div class="mx-2 d-flex justify-content-between mb-4">
+            <div class="d-flex">
+                <img src="{{ asset('img/logo.png') }}" alt="" width="36" height="36">
+                <h5 class="pt-2 px-2">                    
+                    Jubel Mart            
+                </h5>
+            </div>            
+            <a href="{{ route('logout') }}" class="btn btn-danger">Logout</a>
+        </div>
         @if (session('message'))
             <div class="alert alert-danger small py-3 ms-3 my-3">
                 {{ session('message') }}
@@ -24,10 +33,11 @@
                     @foreach ($posts as $item)
                         <div class="col-6">
                             <div class="card overflow-hidden mb-4" style="width: 23rem;">
-                                <img src="{{ asset('img/Screenshot 2023-12-13 120519.png') }}" alt="">
+                                <img src="{{ asset('img/' . $item->image) }}" alt="" height="200">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $item->nama_produk }}</h5>
                                     <p>Rp. {{ $item->harga }}</p>
+                                    <p class="text-secondary fst-italic">Stok: {{ $item->stok }}</p>
                                     <form action="{{ route('store') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="nama_produk" value="{{ $item->nama_produk }}">
@@ -43,7 +53,7 @@
                             </div>
                         </div>
                     @endforeach
-                </div>
+                </div>                
             </div>
             <div class="card h-100" style="width: 33rem;">
                 <div class="px-2 py-2">
