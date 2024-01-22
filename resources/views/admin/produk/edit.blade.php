@@ -27,17 +27,7 @@
                     <div class="mb-3">
                         <label class="form-label">Stok</label>
                         <input type="text" class="form-control" value="{{ old('nama', $post->stok) }}" name="stok">
-                    </div>
-                    <div class="mb-3">
-                        <label for="product_category" class="form-label">Kategori Produk</label>
-                        <select name="categories_id" id="product_category" class="form-select">
-                            @foreach ($categories as $item)
-                                <option value="{{ $item->id }}" {{ $item->id == $post->categories_id ? 'selected' : '' }}>
-                                    {{ $item->nama }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>                
+                    </div>                                   
                     <div class="mb-3">
                         <label class="form-label">Harga</label>
                         <input type="text" class="form-control" value="{{ old('harga', $post->harga) }}" name="harga">

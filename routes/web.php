@@ -31,17 +31,20 @@ Route::middleware('auth')->group(function() {
     
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.index');
     
-    Route::get('/category', [AdminController::class, 'category'])->name('admin.category');
-    Route::get('/category/add', [AdminController::class, 'addCategory'])->name('admin.category.add');
-    Route::post('/category/add', [AdminController::class, 'storeCategory'])->name('admin.category.store');
-    Route::get('/category/edit/{id}', [AdminController::class, 'editCategory'])->name('admin.category.edit');
-    Route::put('/category/update/{id}', [AdminController::class, 'updateCategory'])->name('admin.category.update');
-    Route::get('/category/delete/{id}', [AdminController::class, 'destroyCategory'])->name('admin.category.destroy');
-    
     Route::get('/product', [AdminController::class, 'product'])->name('admin.produk');
     Route::get('/product/add', [AdminController::class, 'addProduct'])->name('admin.produk.add');
     Route::post('/product/add', [AdminController::class, 'storeProduct'])->name('admin.produk.store');
     Route::get('/product/edit/{id}', [AdminController::class, 'editProduct'])->name('admin.produk.edit');
     Route::put('/product/update/{id}', [AdminController::class, 'updateProduct'])->name('admin.produk.update');
     Route::get('/product/delete/{id}', [AdminController::class, 'destroyProduct'])->name('admin.produk.destroy');
+
+    Route::get('/operator', [AdminController::class, 'operator'])->name('admin.operator');
+    Route::get('/operator/add', [AdminController::class, 'operatorAdd'])->name('admin.operator.add');
+    Route::post('/operator/add', [AdminController::class, 'operatorStore'])->name('admin.operator.store');
+    Route::get('/operator/edit/{id}', [AdminController::class, 'operatorEdit'])->name('admin.operator.edit');
+    Route::put('/operator/update/{id}', [AdminController::class, 'operatorUpdate'])->name('admin.operator.update');
+    Route::get('/operator/delete/{id}', [AdminController::class, 'operatorDelete'])->name('admin.operator.destroy');
+    
+    Route::get('/laporan', [AdminController::class, 'laporan'])->name('laporan');
+
 });

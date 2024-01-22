@@ -38,13 +38,7 @@
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('admin.category') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Kategori</p>
-                            </a>
-                        </li>
+                    <ul class="nav nav-treeview">                        
                         <li class="nav-item">
                             <a href="{{ route('admin.produk') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
@@ -54,7 +48,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('admin.operator') }}" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Operator
@@ -62,33 +56,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('laporan') }}" class="nav-link">
                         <i class="nav-icon fas fa-folder"></i>
                         <p>
-                            Lapooran
-                            <i class="fas fa-angle-left right"></i>
+                            Laporan Penjualan                            
                         </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="pages/UI/general.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Laporan Harian</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/UI/icons.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Laporan Bulanan</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/UI/buttons.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Laporan Transaksi</p>
-                            </a>
-                        </li>
-                    </ul>
+                    </a>                    
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link">

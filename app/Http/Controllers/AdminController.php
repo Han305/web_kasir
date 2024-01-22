@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Invoice;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -12,57 +14,7 @@ class AdminController extends Controller
     public function index()
     {
         return view('admin.dashboard');
-    }
-
-    public function category()
-    {
-        $posts = Category::all();
-        return view('admin.category.index', compact('posts'));
-    }
-
-    public function addCategory()
-    {
-        return view('admin.category.add');
-    }
-
-    public function storeCategory(Request $request)
-    {
-        $validate = $request->validate([
-            'nama' => 'required',
-        ]);
-
-        $post = new Category();
-        $post->nama = $validate['nama'];
-        $post->save();
-
-        return redirect(route('admin.category'));
-    }
-
-    public function editCategory($id)
-    {
-        $posts = Category::find($id);
-        return view('admin.category.edit', compact('posts'));
-    }
-
-    public function updateCategory(Request $request, $id)
-    {
-        $validate = $request->validate([
-            'nama' => 'required',
-        ]);
-
-        $posts = Category::find($id);
-        $posts->nama = $validate['nama'];
-        $posts->save();
-
-        return redirect(route('admin.category'));
-    }
-
-    public function destroyCategory($id)
-    {
-        $posts = Category::find($id);
-        $posts->delete();
-        return redirect(route('admin.category'));
-    }
+    }    
 
     public function product()
     {
@@ -71,9 +23,8 @@ class AdminController extends Controller
     }
 
     public function addProduct()
-    {
-        $categories = Category::all();
-        return view('admin.produk.add', compact('categories'));
+    {        
+        return view('admin.produk.add');
     }
 
     public function storeProduct(Request $request)
@@ -82,8 +33,7 @@ class AdminController extends Controller
             'image' => 'required|image|mimes:jpg,jpeg,bmp,png|max:1024',
             'nama_produk' => 'required',
             'stok' => 'required',
-            'harga' => 'required',
-            'categories_id' => 'required',
+            'harga' => 'required',            
         ]);
 
         $image = time() . '.' . $request->image->extension();
@@ -93,8 +43,7 @@ class AdminController extends Controller
         $post->image = $image;
         $post->nama_produk = $validate['nama_produk'];
         $post->stok = $validate['stok'];
-        $post->harga = $validate['harga'];
-        $post->categories_id = $validate['categories_id'];
+        $post->harga = $validate['harga'];        
         $post->save();
 
         return redirect(route('admin.produk'));
@@ -102,9 +51,8 @@ class AdminController extends Controller
 
     public function editProduct($id)
     {
-        $post = Product::find($id);
-        $categories = Category::all();
-        return view('admin.produk.edit', compact('post', 'categories'));
+        $post = Product::find($id);        
+        return view('admin.produk.edit', compact('post'));
     }
 
     public function updateProduct(Request $request, $id)
@@ -113,8 +61,7 @@ class AdminController extends Controller
             'image' => 'required|image|mimes:jpg,jpeg,bmp,png|max:1024',
             'nama_produk' => 'required',
             'stok' => 'required',
-            'harga' => 'required',
-            'categories_id' => 'required',
+            'harga' => 'required',            
         ]);
 
         $posts = Product::find($id);
@@ -125,8 +72,7 @@ class AdminController extends Controller
         }
         $posts->nama_produk = $validate['nama_produk'];
         $posts->stok = $validate['stok'];
-        $posts->harga = $validate['harga'];
-        $posts->categories_id = $validate['categories_id'];
+        $posts->harga = $validate['harga'];        
         $posts->save();
 
         return redirect(route('admin.produk'));
@@ -144,4 +90,72 @@ class AdminController extends Controller
 
         return redirect(route('admin.produk'));
     }
+
+    public function operator() {
+        $posts = User::where('category', 'staff')->get();
+        return view('admin.operator.index', compact('posts'));
+    }
+
+    public function operatorAdd() {
+        return view('admin.operator.add');
+    }
+
+    public function operatorStore(Request $request) {
+        $validate = $request->validate([
+            'name' => 'required',
+            'username' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'category' => 'required',
+        ]);
+
+        $posts = new User();
+        $posts->name = $validate['name'];
+        $posts->username = $validate['username'];
+        $posts->email = $validate['email'];
+        $posts->password = $validate['password'];
+        $posts->category = $validate['category'];
+        $posts->save();
+
+        return redirect(route('admin.operator'));
+    }
+
+    public function operatorEdit($id) {
+        $posts = User::find($id);
+        return view('admin.operator.edit', compact('posts'));
+    }
+
+    public function operatorUpdate(Request $request, $id) {
+        $validate = $request->validate([
+            'name' => 'required',
+            'username' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'category' => 'required',
+        ]);
+
+        $posts = User::find($id);        
+        $posts->name = $validate['name'];
+        $posts->username = $validate['username'];
+        $posts->email = $validate['email'];
+        $posts->password = $validate['password'];
+        $posts->category = $validate['category'];
+        $posts->save();
+
+        return redirect(route('admin.operator'));
+    }
+
+    public function operatorDelete($id) {
+        $posts = User::find($id);
+        $posts->delete();
+        return redirect(route('admin.operator'));
+    }
+
+    public function laporan() {
+        $posts = Invoice::all();
+        $totalQty = $posts->sum('qty');
+        $totalHarga = $posts->sum('harga');
+    
+        return view('admin.laporan', compact('posts', 'totalQty', 'totalHarga'));
+    }    
 }
