@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\Transaksi;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
@@ -84,6 +83,9 @@ class TransaksiController extends Controller
 
         Transaksi::truncate();
 
-        return redirect(route('index'));
+        return redirect(route('index'))->with([
+            'message' => 'Transaksi Berhasil'
+        ]);
     }
+
 }

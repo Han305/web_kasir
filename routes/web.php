@@ -35,6 +35,13 @@ Route::middleware('auth')->group(function() {
     
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.index');
     
+    Route::get('/kelola', [AdminController::class, 'kelola'])->name('produk');
+    Route::get('/add', [AdminController::class, 'add'])->name('produk.add');
+    Route::post('/add', [AdminController::class, 'store'])->name('produk.store');
+    Route::get('/edit/{id}', [AdminController::class, 'edit'])->name('produk.edit');
+    Route::put('/update/{id}', [AdminController::class, 'update'])->name('produk.update');
+    Route::get('/delete/{id}', [AdminController::class, 'destroy'])->name('produk.destroy');
+    
     Route::get('/product', [AdminController::class, 'product'])->name('admin.produk');
     Route::get('/product/add', [AdminController::class, 'addProduct'])->name('admin.produk.add');
     Route::post('/product/add', [AdminController::class, 'storeProduct'])->name('admin.produk.store');

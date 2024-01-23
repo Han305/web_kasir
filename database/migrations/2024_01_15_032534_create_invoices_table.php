@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->string('no_invoice');                     
-            $table->string('qty');
+            $table->string('qty');            
             $table->decimal('harga', 10, 3);
             $table->timestamps();
         });

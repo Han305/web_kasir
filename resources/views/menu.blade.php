@@ -16,14 +16,22 @@
         <div class="mx-2 d-flex justify-content-between mb-4">
             <div class="d-flex">
                 <img src="{{ asset('img/logo.png') }}" alt="" width="36" height="36">
-                <h5 class="pt-2 px-2">                    
-                    Jubel Mart            
+                <h5 class="pt-2 px-2">
+                    Jubel Mart
                 </h5>
-            </div>            
-            <a href="{{ route('logout') }}" class="btn btn-danger">Logout</a>
+            </div>
+            <div class="d-flex">
+                <a href="{{ route('produk') }}" class="btn btn-primary me-4">Kelola Produk</a>
+                <a href="{{ route('logout') }}" class="btn btn-danger">Logout</a>
+            </div>
         </div>
+        @error('message')
+            <div class="alert alert-danger small py-3">
+                {{ $message }}
+            </div>
+        @enderror
         @if (session('message'))
-            <div class="alert alert-danger small py-3 ms-3 my-3">
+            <div class="alert alert-success small py-3">
                 {{ session('message') }}
             </div>
         @endif
@@ -53,7 +61,7 @@
                             </div>
                         </div>
                     @endforeach
-                </div>                
+                </div>
             </div>
             <div class="card h-100" style="width: 33rem;">
                 <div class="px-2 py-2">
@@ -101,6 +109,13 @@
                                 @endif
                             </h5>
                         </div>
+                        @if (session('pesan'))
+                            <div class="text-dark">
+                                <p>
+                                    {{ session('pesan') }}
+                                </p>
+                            </div>
+                        @endif
                     </div>
                     <form action="{{ route('tambah') }}" method="POST">
                         @csrf
