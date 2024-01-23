@@ -18,7 +18,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(AuthController::class)->middleware('guest')->group(function() {
     Route::get('/', [AuthController::class, 'index'])->name('login');
+    Route::get('/admin', [AuthController::class, 'login'])->name('login.admin');
     Route::post('/', [AuthController::class, 'login_process'])->name('login.process');
+    Route::get('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('/register', [AuthController::class, 'register_process'])->name('register.process');
+    
 });
 
 Route::middleware('auth')->group(function() {

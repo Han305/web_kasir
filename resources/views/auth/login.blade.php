@@ -39,7 +39,13 @@
                             <label class="form-label fw-semibold">Password</label>
                             <input type="password" class="form-control" name="password"/>
                             <small class="text-danger">{{ $errors->first('password') }}</small>
-                        </div>                                               
+                        </div>   
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="small fw-semibold text-muted">
+                                Belum punya akun? <a class="text-decoration-none"
+                                    href="{{ route('register') }}">Register</a>.
+                            </div>
+                        </div>                     
                         <div class="d-grid mt-3">
                             <button class="btn btn-primary btn-md">
                                 Login

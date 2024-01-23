@@ -16,7 +16,7 @@
             <div class="card" style="margin: 0 7rem 0 7rem">
                 <div class="card-body">
                     <div class="text-center">
-                        <h3>Login</h3>
+                        <h3>Register</h3>
                     </div>
                     @error('message')
                         <div class="alert alert-danger small py-3">
@@ -28,21 +28,34 @@
                             {{ session('message') }}
                         </div>
                     @endif
-                    <form method="POST" action="{{ route('login.process') }}">
+                    <form action="{{ route('register.process') }}" method="POST">                    
                         @csrf
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Username</label>
-                            <input type="text" class="form-control" name="username" value="{{ old('email') }}" />
-                            <small class="text-danger">{{ $errors->first('email') }}</small>
+                            <label class="form-label">Nama</label>
+                            <input type="text" class="form-control" name="name">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Password</label>
-                            <input type="password" class="form-control" name="password"/>
-                            <small class="text-danger">{{ $errors->first('password') }}</small>
-                        </div>                                               
+                            <label class="form-label">Username</label>
+                            <input type="text" class="form-control" name="username">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" name="password">
+                        </div>
+                        <input type="hidden" name="category" value="admin">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="small fw-semibold text-muted">
+                                Sudah punya akun? <a class="text-decoration-none"
+                                    href="{{ route('login') }}">Login</a>.
+                            </div>
+                        </div> 
                         <div class="d-grid mt-3">
                             <button class="btn btn-primary btn-md">
-                                Login
+                                Submit
                             </button>
                         </div>
                     </form>

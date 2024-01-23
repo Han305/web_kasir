@@ -21,8 +21,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Gambar</th>
-                            <th scope="col">Nama</th>
-                            <th scope="col">Kategori</th>
+                            <th scope="col">Nama</th>                            
                             <th scope="col">Stok</th>
                             <th scope="col">Harga</th>
                             <th scope="col">Aksi</th>
@@ -33,8 +32,7 @@
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td><img src="{{ asset('img/' . $item->image) }}" alt="" style="width: 100px;"></td>
-                                <td>{{ $item->nama_produk }}</td>
-                                <td>{{ $item->categories_id }}</td>
+                                <td>{{ $item->nama_produk }}</td>                                
                                 <td>{{ $item->stok }}</td>
                                 <td>{{ $item->harga }}</td>
                                 <td>

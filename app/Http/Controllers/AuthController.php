@@ -35,6 +35,36 @@ class AuthController extends Controller
         ]);
     }
 
+    public function register() {
+        return view('auth.register');
+    }
+    
+    public function login() {
+        return view('auth.login');
+    }
+
+    public function register_process(Request $request) {
+        $validate = $request->validate([
+            'name' => 'required',
+            'username' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'category' => 'required',
+        ]);
+
+        $posts = new User();
+        $posts->name = $validate['name'];
+        $posts->username = $validate['username'];
+        $posts->email = $validate['email'];
+        $posts->password = $validate['password'];
+        $posts->category = $validate['category'];
+        $posts->save();
+
+        return redirect(route('login.admin'))->with([
+            'message' => 'Akun sudah dibuat',
+        ]);
+    }
+
     public function logout() {
         Auth::logout();
         return redirect(route('login'));
