@@ -13,7 +13,7 @@
         </div>
         <section class="content">
             <div class="container-fluid">
-                <form action="{{ route('produk.update', ['id' => $post->id]) }}" method="POST" enctype="multipart/form-data">                    
+                <form action="{{ route('produk.update', ['kode_produk' => $post->kode_produk]) }}" method="POST" enctype="multipart/form-data">                    
                     @csrf
                     @method('PUT')
                     <div class="mb-3">

@@ -30,10 +30,11 @@ Route::middleware('auth')->group(function() {
 
     // Route Controller menu untuk kasir
     Route::controller(TransaksiController::class)->group(function() {
-        Route::get('/kasir', [TransaksiController::class, 'index'])->name('index');
-        Route::post('/kasir/{kode_produk}', [TransaksiController::class, 'store'])->name('store');
-        Route::post('/cart', [TransaksiController::class, 'addPesanan'])->name('tambah');
-        Route::get('/hapus/{id}', [TransaksiController::class, 'destroy'])->name('destroy');
+        Route::get('/kasir', 'index')->name('index');
+        Route::post('/kasir/{kode_produk}', 'store')->name('store');
+        Route::post('/cart', 'addPesanan')->name('tambah');
+        Route::get('/hapus/{id}', 'destroy')->name('destroy');
+        Route::get('/struk/{no_invoice}', 'struk')->name('struk');
     });
     
     // Route controller admin
@@ -45,25 +46,25 @@ Route::middleware('auth')->group(function() {
         Route::get('/kelola', 'kelola')->name('produk');
         Route::get('/add', 'add')->name('produk.add');
         Route::post('/add', 'store')->name('produk.store');
-        Route::get('/edit/{id}', 'edit')->name('produk.edit');
-        Route::put('/update/{id}', 'update')->name('produk.update');
-        Route::get('/delete/{id}', 'destroy')->name('produk.destroy');
+        Route::get('/edit/{kode_produk}', 'edit')->name('produk.edit');
+        Route::put('/update/{kode_produk}', 'update')->name('produk.update');
+        Route::get('/delete/{kode_produk}', 'destroy')->name('produk.destroy');
 
-        Route::get('/product', [AdminController::class, 'product'])->name('admin.produk');
-        Route::get('/product/add', [AdminController::class, 'addProduct'])->name('admin.produk.add');
-        Route::post('/product/add', [AdminController::class, 'storeProduct'])->name('admin.produk.store');
-        Route::get('/product/edit/{id}', [AdminController::class, 'editProduct'])->name('admin.produk.edit');
-        Route::put('/product/update/{id}', [AdminController::class, 'updateProduct'])->name('admin.produk.update');
-        Route::get('/product/delete/{id}', [AdminController::class, 'destroyProduct'])->name('admin.produk.destroy');
+        Route::get('/product', 'product')->name('admin.produk');
+        Route::get('/product/add', 'addProduct')->name('admin.produk.add');
+        Route::post('/product/add', 'storeProduct')->name('admin.produk.store');
+        Route::get('/product/edit/{kode_produk}', 'editProduct')->name('admin.produk.edit');
+        Route::put('/product/update/{kode_produk}', 'updateProduct')->name('admin.produk.update');
+        Route::get('/product/delete/{kode_produk}', 'destroyProduct')->name('admin.produk.destroy');
     
-        Route::get('/operator', [AdminController::class, 'operator'])->name('admin.operator');
-        Route::get('/operator/add', [AdminController::class, 'operatorAdd'])->name('admin.operator.add');
-        Route::post('/operator/add', [AdminController::class, 'operatorStore'])->name('admin.operator.store');
-        Route::get('/operator/edit/{id}', [AdminController::class, 'operatorEdit'])->name('admin.operator.edit');
-        Route::put('/operator/update/{id}', [AdminController::class, 'operatorUpdate'])->name('admin.operator.update');
-        Route::get('/operator/delete/{id}', [AdminController::class, 'operatorDelete'])->name('admin.operator.destroy');
+        Route::get('/operator', 'operator')->name('admin.operator');
+        Route::get('/operator/add', 'operatorAdd')->name('admin.operator.add');
+        Route::post('/operator/add', 'operatorStore')->name('admin.operator.store');
+        Route::get('/operator/edit/{id}', 'operatorEdit')->name('admin.operator.edit');
+        Route::put('/operator/update/{id}', 'operatorUpdate')->name('admin.operator.update');
+        Route::get('/operator/delete/{id}', 'operatorDelete')->name('admin.operator.destroy');
         
-        Route::get('/laporan', [AdminController::class, 'laporan'])->name('laporan');
+        Route::get('/laporan', 'laporan')->name('laporan');
     });
     
 

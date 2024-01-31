@@ -15,4 +15,15 @@ class Product extends Model
     protected function keranjangs() {
         return $this->hasMany(Keranjang::class);
     }
+
+    protected function detail_transaksis() {
+        return $this->hasMany(DetailTransaksi::class);
+    }
+
+    public function scopeFilter($query) {
+        if (request('search')) {
+            return $query->where('nama_produk', 'like', '%' . request('search') . '%');
+        }
+    }
+
 }

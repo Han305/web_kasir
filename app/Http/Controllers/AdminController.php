@@ -14,7 +14,7 @@ class AdminController extends Controller
     public function index()
     {
         $posts = User::where('category', 'staff')->count();
-        $produk = Product::sum('nama_produk');
+        $produk = Product::count('nama_produk');
         $stok = Product::sum('stok');     
         $laporan = DetailTransaksi::sum('subtotal');   
         return view('admin.dashboard', compact('posts', 'produk', 'stok', 'laporan'));
@@ -52,13 +52,13 @@ class AdminController extends Controller
         return redirect(route('produk'));
     }
 
-    public function edit($id)
+    public function edit($kode_produk)
     {
-        $post = Product::find($id);        
+        $post = Product::find($kode_produk);        
         return view('edit', compact('post'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $kode_produk)
     {
         $validate = $request->validate([
             'image' => 'image|mimes:jpg,jpeg,bmp,png|max:1024',
@@ -67,7 +67,19 @@ class AdminController extends Controller
             'harga' => 'required',            
         ]);
 
-        $posts = Product::find($id);
+        $posts = Product::find($kode_produk);
+
+            // Hapus terlebih dahulu semua detail transaksi yang merujuk ke produk ini
+            // Kalo mau update product tapi error buka dulu komen yang dibawah ini
+            // $posts->detailTransaksis()->delete();
+
+            // Dan kalo masih error copas ke model product kode dibawah ke model Product
+            // public function detail_transaksis() {
+            //     return $this->hasMany(DetailTransaksi::class, 'kode_produk', 'kode_produk');
+            // }
+            
+
+
         if ($request->hasFile('image')) {
             $image = time() . '.' . $request->image->extension();
             $request->image->move(public_path('img'), $image);
@@ -81,13 +93,17 @@ class AdminController extends Controller
         return redirect(route('produk'));
     }
 
-    public function destroy($id) {
-        $posts = Product::find($id);
+    public function destroy($kode_produk) {
+        $posts = Product::find($kode_produk);
 
         $imagePath = public_path('img') . '/' . $posts->image;
         if (File::exists($imagePath)) {
             File::delete($imagePath);
         }
+
+        // Hapus terlebih dahulu semua detail transaksi yang merujuk ke produk ini
+        // Kalo mau delete product tapi error buka dulu komen yang dibawah ini
+        // $posts->detailTransaksis()->delete();
 
         $posts->delete();
 
@@ -127,13 +143,13 @@ class AdminController extends Controller
         return redirect(route('admin.produk'));
     }
 
-    public function editProduct($id)
+    public function editProduct($kode_produk)
     {
-        $post = Product::find($id);        
+        $post = Product::find($kode_produk);        
         return view('admin.produk.edit', compact('post'));
     }
 
-    public function updateProduct(Request $request, $id)
+    public function updateProduct(Request $request, $kode_produk)
     {
         $validate = $request->validate([
             'image' => 'required|image|mimes:jpg,jpeg,bmp,png|max:1024',
@@ -142,7 +158,12 @@ class AdminController extends Controller
             'harga' => 'required',            
         ]);
 
-        $posts = Product::find($id);
+        $posts = Product::find($kode_produk);
+
+        // Hapus terlebih dahulu semua detail transaksi yang merujuk ke produk ini
+        // Kalo mau update product tapi error buka dulu komen yang dibawah ini
+        // $posts->detailTransaksis()->delete();
+
         if ($request->hasFile('image')) {
             $image = time() . '.' . $request->image->extension();
             $request->image->move(public_path('img'), $image);
@@ -156,13 +177,17 @@ class AdminController extends Controller
         return redirect(route('admin.produk'));
     }
 
-    public function destroyProduct($id) {
-        $posts = Product::find($id);
+    public function destroyProduct($kode_produk) {
+        $posts = Product::find($kode_produk);
 
         $imagePath = public_path('img') . '/' . $posts->image;
         if (File::exists($imagePath)) {
             File::delete($imagePath);
         }
+
+        // Hapus terlebih dahulu semua detail transaksi yang merujuk ke produk ini
+        // Kalo mau delete product tapi error buka dulu komen yang dibawah ini
+        // $posts->detailTransaksis()->delete();
 
         $posts->delete();
 
@@ -232,8 +257,8 @@ class AdminController extends Controller
     public function laporan() {
         $posts = DetailTransaksi::all();
         $totalQty = $posts->sum('qty');
-        $totalHarga = $posts->sum('subtotal ');
-    
-        return view('admin.laporan', compact('posts', 'totalQty', 'totalHarga'));
+        $total = $posts->sum('subtotal');
+        
+        return view('admin.laporan', compact('posts', 'totalQty', 'total'));
     }    
 }

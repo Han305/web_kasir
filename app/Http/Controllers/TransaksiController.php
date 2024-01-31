@@ -12,15 +12,16 @@ use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Product::all();
+        $posts = Product::latest()->filter()->get();
         $pesanan = Keranjang::all();
-        $totalHarga = $pesanan->sum('subtotal');
+        $totalHarga = $pesanan->sum('subtotal');        
 
         $diskon = ($pesanan->sum('qty') > 8) ? 0.05 * $totalHarga : 0;
         return view('menu', compact('posts', 'pesanan', 'totalHarga', 'diskon'));
     }
+
 
     public function store(Request $request, $kode_produk)
     {
@@ -92,9 +93,17 @@ class TransaksiController extends Controller
 
         Keranjang::truncate();
 
-        return redirect(route('index'))->with([
-            'message' => 'Transaksi Berhasil'
-        ]);
+        return redirect(route('struk', $invoice->no_invoice));
     }
 
+    public function struk($no_invoice) {
+        $struk = Transaksi::find($no_invoice);
+        $det = DetailTransaksi::where('no_invoice', $no_invoice)->get();
+        $sum = $det->sum('subtotal');
+        $diskon = ($det->sum('qty') > 8) ? 0.05 * $sum : 0;
+
+        return view('struk', compact('struk', 'sum', 'diskon'));
+    }
+
+    
 }

@@ -28,14 +28,14 @@
                                 <th scope="row">{{ $loop->iteration }}</th>                                
                                 <td>{{ $item->no_invoice }}</td>
                                 <td>{{ $item->qty }}</td>
-                                <td>Rp. {{ $item->harga }}</td>
+                                <td>Rp. {{ $item->subtotal }}</td>
                             </tr>
                         @endforeach
                         <tr>
                             <td></td>
                             <td></td>
                             <td>Barang keluar: {{ $totalQty }}</td>
-                            <td>Pendapatan: Rp. {{ number_format($totalHarga, 3, '.', '.') }}</td>
+                            <td>Pendapatan: Rp. {{ number_format($total, 3, ',', '.') }}</td>
                         </tr>
                     </tbody>
                 </table>

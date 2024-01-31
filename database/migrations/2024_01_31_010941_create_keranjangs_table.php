@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('kode_produk');
             $table->integer('qty');
-            $table->integer('subtotal');
+            $table->decimal('subtotal', 10, 3);
             $table->timestamps();
 
             $table->foreign('kode_produk')->references('kode_produk')->on('products');

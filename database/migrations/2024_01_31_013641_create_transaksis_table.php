@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('transaksis', function (Blueprint $table) {
             $table->unsignedBigInteger('no_invoice')->autoIncrement(true);
-            $table->unsignedInteger('total_harga');
+            $table->decimal('total_harga', 10, 3);
             $table->unsignedInteger('jml_produk');
 
             $table->timestamps();

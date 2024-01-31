@@ -9,4 +9,13 @@ class DetailTransaksi extends Model
 {
     use HasFactory;
 
+    
+    
+    protected function products() {
+        return $this->belongsTo(Product::class, 'kode_produk');
+    }
+    
+    protected function transaksis() {
+        return $this->belongsTo(Transaksi::class, 'no_invoice');
+    }
 }

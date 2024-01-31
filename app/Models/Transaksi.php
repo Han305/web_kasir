@@ -17,4 +17,8 @@ class Transaksi extends Model
         'jml_produk',
         'total_harga',
     ];
+
+    protected function detail_transaksis() {
+        return $this->hasMany(DetailTransaksi::class, 'no_invoice');
+    }
 }

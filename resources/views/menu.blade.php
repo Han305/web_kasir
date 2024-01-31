@@ -37,6 +37,12 @@
         @endif
         <div class="row">
             <div class="col">
+                <form class="form ms-3" method="get" action="{{ route('index') }}">
+                    <div class="form-group w-100 mb-3">                        
+                        <input type="text" name="search" value="{{ request('search') }}" class="form-control w-75 d-inline"  placeholder="Cari Produk">
+                        <button type="submit" class="btn btn-primary mb-1">Cari</button>
+                    </div>
+                </form>
                 <div class="row ms-1">
                     @foreach ($posts as $item)
                         <div class="col-6">
@@ -81,7 +87,7 @@
                                     <th scope="row">{{ $loop->iteration }}</th>
                                     <td>{{ $item->products->nama_produk }}</td>
                                     <td>{{ $item->qty }}</td>
-                                    <td>Rp. {{ number_format($item->subtotal, 3, '.', '.') }}</td>
+                                    <td>Rp. {{ number_format($item->subtotal, 3, ',', '.') }}</td>
                                     <td>
                                         <a href="/hapus/{{ $item->id }}"
                                             class="text-decoration-none text-danger">x</a>
@@ -103,7 +109,7 @@
                         <div class="d-flex justify-content-end">
                             <h5 class="text-success">Total Harga: Rp.
                                 @if ($totalHarga > 0)
-                                    {{ number_format($totalHarga - $diskon, 3, '.', '.') }}
+                                    {{ number_format($totalHarga - $diskon, 3, ',', '.') }}
                                 @else
                                     0
                                 @endif

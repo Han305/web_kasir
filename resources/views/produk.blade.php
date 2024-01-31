@@ -36,10 +36,10 @@
                                 <td>{{ $item->stok }}</td>
                                 <td>{{ $item->harga }}</td>
                                 <td>
-                                    <a href="{{ route('produk.edit', $item->id) }}" class="btn btn-primary btn-sm">
+                                    <a href="{{ route('produk.edit', $item->kode_produk) }}" class="btn btn-primary btn-sm">
                                         Edit
                                     </a>
-                                    <a href="{{ route('produk.destroy', $item->id) }}" class="btn btn-danger btn-sm"
+                                    <a href="{{ route('produk.destroy', $item->kode_produk) }}" class="btn btn-danger btn-sm"
                                         onclick="return deleteConfirm()">
                                         Delete
                                     </a>
