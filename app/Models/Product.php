@@ -9,4 +9,10 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'kode_produk';
+    protected $guarded = 'kode_produk';
+
+    protected function keranjangs() {
+        return $this->hasMany(Keranjang::class);
+    }
 }

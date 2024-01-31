@@ -46,7 +46,7 @@
                                     <h5 class="card-title">{{ $item->nama_produk }}</h5>
                                     <p>Rp. {{ $item->harga }}</p>
                                     <p class="text-secondary fst-italic">Stok: {{ $item->stok }}</p>
-                                    <form action="{{ route('store') }}" method="POST">
+                                    <form action="{{ route('store', $item->kode_produk) }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="nama_produk" value="{{ $item->nama_produk }}">
                                         <input type="hidden" name="harga" value="{{ $item->harga }}">
@@ -79,9 +79,9 @@
                             @foreach ($pesanan as $item)
                                 <tr>
                                     <th scope="row">{{ $loop->iteration }}</th>
-                                    <td>{{ $item->nama_produk }}</td>
+                                    <td>{{ $item->products->nama_produk }}</td>
                                     <td>{{ $item->qty }}</td>
-                                    <td>Rp. {{ $item->harga }}</td>
+                                    <td>Rp. {{ number_format($item->subtotal, 3, '.', '.') }}</td>
                                     <td>
                                         <a href="/hapus/{{ $item->id }}"
                                             class="text-decoration-none text-danger">x</a>

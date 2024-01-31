@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DetailTransaksi;
 use App\Models\Invoice;
+use App\Models\Keranjang;
 use App\Models\Product;
 use App\Models\Transaksi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
@@ -12,32 +15,29 @@ class TransaksiController extends Controller
     public function index()
     {
         $posts = Product::all();
-        $pesanan = Transaksi::all();
-        $totalHarga = $pesanan->sum('harga');
+        $pesanan = Keranjang::all();
+        $totalHarga = $pesanan->sum('subtotal');
 
         $diskon = ($pesanan->sum('qty') > 8) ? 0.05 * $totalHarga : 0;
         return view('menu', compact('posts', 'pesanan', 'totalHarga', 'diskon'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $kode_produk)
     {
+        $product = Product::where('kode_produk', $kode_produk)->first();
+
         $validate = $request->validate([
-            'qty' => 'min:1|required',
-            'harga' => 'required',
-            'nama_produk' => 'required',
+            'qty' => 'required',
         ]);
         $qty = $validate['qty'];
-        $harga = $validate['harga'];
+        $harga = $product->harga * $qty;
 
-        $sumHarga = $qty * $harga;
-
-        $post = new Transaksi();
-        $post->nama_produk = $validate['nama_produk'];
+        $post = new Keranjang();
+        $post->kode_produk = $kode_produk;
         $post->qty = $validate['qty'];
-        $post->harga = $sumHarga;
+        $post->subtotal = $harga;
         $post->save();
 
-        $product = Product::where('nama_produk', $validate['nama_produk'])->first();
         if ($product) {
             $product->stok -= $qty;
             $product->save();
@@ -48,8 +48,8 @@ class TransaksiController extends Controller
 
     public function destroy($id)
     {
-        $pesanan = Transaksi::find($id);
-        $product = Product::where('nama_produk', $pesanan->nama_produk)->first();
+        $pesanan = Keranjang::find($id);
+        $product = Product::where('kode_produk', $pesanan->kode_produk)->first();
         if ($product) {
             $product->stok += $pesanan->qty;
             $product->save();
@@ -62,10 +62,9 @@ class TransaksiController extends Controller
 
     public function addPesanan()
     {
-        $post = Transaksi::all();
+        $post = Keranjang::all();
         $jumlah_total = $post->sum('qty');
-        $total_harga = $post->sum('harga');
-
+        $total_harga = $post->sum('subtotal');
         if ($post->isEmpty()) {
             return redirect(route('index'))->with([
                 'message' => 'Data tidak boleh kosong',
@@ -73,15 +72,25 @@ class TransaksiController extends Controller
         }
 
         $diskon = ($post->sum('qty') > 8) ? 0.05 * $total_harga : 0;
-        $no_invoice = 'NV' . mt_rand(100000, 999999);
+        $no_invoice = Carbon::now()->format('Ymd') . rand(111111, 999999);
 
-        $invoice = new Invoice();
+        $invoice = new Transaksi();
         $invoice->no_invoice = $no_invoice;
-        $invoice->qty = $jumlah_total;
-        $invoice->harga = ($diskon > 0) ? $total_harga - $diskon : $total_harga;
+        $invoice->jml_produk = $jumlah_total;
+        $invoice->total_harga = ($diskon > 0) ? $total_harga - $diskon : $total_harga;
         $invoice->save();
 
-        Transaksi::truncate();
+
+        foreach ($post as $item) {
+            $detail = new DetailTransaksi();
+            $detail->kode_produk = $item->kode_produk;
+            $detail->no_invoice = $no_invoice;
+            $detail->qty = $item->qty;
+            $detail->subtotal = $item->subtotal;
+            $detail->save();
+        }
+
+        Keranjang::truncate();
 
         return redirect(route('index'))->with([
             'message' => 'Transaksi Berhasil'

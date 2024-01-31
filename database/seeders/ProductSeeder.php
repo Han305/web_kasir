@@ -19,28 +19,24 @@ class ProductSeeder extends Seeder
             'nama_produk' => 'ayam bakar',
             'stok' => '99',
             'harga' => '15.000',
-            'categories_id' => '1',
         ]);
         DB::table('products')->insert([
             'image' => 'image.png',
             'nama_produk' => 'ayam bakar',
             'stok' => '99',
             'harga' => '15.000',
-            'categories_id' => '1',
         ]);
         DB::table('products')->insert([
             'image' => 'image.png',
             'nama_produk' => 'ayam bakar',
             'stok' => '99',
             'harga' => '15.000',
-            'categories_id' => '1',
         ]);
         DB::table('products')->insert([
             'image' => 'image.png',
             'nama_produk' => 'ayam bakar',
             'stok' => '99',
             'harga' => '15.000',
-            'categories_id' => '1',
         ]);
 
     }

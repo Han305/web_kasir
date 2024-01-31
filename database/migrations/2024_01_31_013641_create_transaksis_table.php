@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('invoices', function (Blueprint $table) {
-            $table->id();
-            $table->string('no_invoice');                     
-            $table->string('qty');            
-            $table->decimal('harga', 10, 3);
+        Schema::create('transaksis', function (Blueprint $table) {
+            $table->unsignedBigInteger('no_invoice')->autoIncrement(true);
+            $table->unsignedInteger('total_harga');
+            $table->unsignedInteger('jml_produk');
+
             $table->timestamps();
+
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('invoices');
+        Schema::dropIfExists('transaksis');
     }
 };

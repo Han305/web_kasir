@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DetailTransaksi;
 use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\User;
@@ -15,7 +16,7 @@ class AdminController extends Controller
         $posts = User::where('category', 'staff')->count();
         $produk = Product::sum('nama_produk');
         $stok = Product::sum('stok');     
-        $laporan = Invoice::sum('harga');   
+        $laporan = DetailTransaksi::sum('subtotal');   
         return view('admin.dashboard', compact('posts', 'produk', 'stok', 'laporan'));
     }    
 
@@ -229,9 +230,9 @@ class AdminController extends Controller
     }
 
     public function laporan() {
-        $posts = Invoice::all();
+        $posts = DetailTransaksi::all();
         $totalQty = $posts->sum('qty');
-        $totalHarga = $posts->sum('harga');
+        $totalHarga = $posts->sum('subtotal ');
     
         return view('admin.laporan', compact('posts', 'totalQty', 'totalHarga'));
     }    
