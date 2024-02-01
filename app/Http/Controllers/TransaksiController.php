@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Transaksi;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TransaksiController extends Controller
 {
@@ -79,6 +80,7 @@ class TransaksiController extends Controller
         $invoice->no_invoice = $no_invoice;
         $invoice->jml_produk = $jumlah_total;
         $invoice->total_harga = ($diskon > 0) ? $total_harga - $diskon : $total_harga;
+        $invoice->user_id = Auth::user()->id;
         $invoice->save();
 
 
@@ -88,6 +90,7 @@ class TransaksiController extends Controller
             $detail->no_invoice = $no_invoice;
             $detail->qty = $item->qty;
             $detail->subtotal = $item->subtotal;
+            $detail->user_id = Auth::user()->id;
             $detail->save();
         }
 

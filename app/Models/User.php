@@ -23,6 +23,9 @@ class User extends Authenticatable
         'password',
     ];
 
+    protected $guarded = [
+        'id'
+    ];
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -42,4 +45,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function transaksis()
+    {
+        return $this->belongsTo(Transaksi::class);
+    }
+
+    public function detail_transaksis()
+    {
+        return $this->belongsTo(DetailTransaksi::class);
+    }
 }

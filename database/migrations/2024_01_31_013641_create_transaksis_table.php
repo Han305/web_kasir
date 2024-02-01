@@ -15,6 +15,9 @@ return new class extends Migration
             $table->unsignedBigInteger('no_invoice')->autoIncrement(true);
             $table->decimal('total_harga', 10, 3);
             $table->unsignedInteger('jml_produk');
+            $table->unsignedBigInteger('user_id');
+
+            $table->foreign('user_id')->references('id')->on('users');
 
             $table->timestamps();
 

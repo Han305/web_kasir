@@ -17,7 +17,7 @@
             <div class="d-flex">
                 <img src="{{ asset('img/logo.png') }}" alt="" width="36" height="36">
                 <h5 class="pt-2 px-2">
-                    Jubel Mart
+                    Grand Media
                 </h5>
             </div>
             <div class="d-flex">
@@ -47,7 +47,7 @@
                     @foreach ($posts as $item)
                         <div class="col-6">
                             <div class="card overflow-hidden mb-4" style="width: 23rem;">
-                                <img src="{{ asset('img/' . $item->image) }}" alt="" height="200">
+                                <img src="{{ asset('img/' . $item->image) }}" alt="" height="300">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $item->nama_produk }}</h5>
                                     <p>Rp. {{ $item->harga }}</p>

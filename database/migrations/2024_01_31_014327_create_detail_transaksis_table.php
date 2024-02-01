@@ -17,7 +17,10 @@ return new class extends Migration
             $table->unsignedBigInteger('no_invoice');
             $table->integer('qty');
             $table->decimal('subtotal', 10, 3);
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+            
+            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('kode_produk')->references('kode_produk')->on('products');
             $table->foreign('no_invoice')->references('no_invoice')->on('transaksis');
         });

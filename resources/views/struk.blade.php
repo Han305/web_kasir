@@ -16,6 +16,7 @@
                 <h4 class="card-title"><span class="text-danger me-2">|</span>Struk Pesanan</h4>
                 <p class="text-muted text-small pt-2">No Struk: {{ $struk->no_invoice }}
                     <br> Tanggal: {{ date('d/m/y') }}
+                    <br> Nama Kasir: {{ $struk->user->name }}
                 </p>
                 <hr>
                 <div class="table-responsive">

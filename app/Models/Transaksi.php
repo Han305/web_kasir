@@ -21,4 +21,9 @@ class Transaksi extends Model
     protected function detail_transaksis() {
         return $this->hasMany(DetailTransaksi::class, 'no_invoice');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

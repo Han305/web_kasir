@@ -18,4 +18,9 @@ class DetailTransaksi extends Model
     protected function transaksis() {
         return $this->belongsTo(Transaksi::class, 'no_invoice');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
